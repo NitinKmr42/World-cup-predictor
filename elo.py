@@ -1,3 +1,4 @@
+import numpy as np
 from Confederations import get_confederation
 
 CONFEDERATION_BASE_ELO = {
@@ -48,7 +49,17 @@ def update_elo(home_team,away_team,home_score,away_score,weight,neutral):
         home_actual,away_actual =0.5 , 0.5
     else:
         home_actual, away_actual = 0.0, 1.0
+    
+    goal_diff = abs(home_score - away_score)
+    gd_multiplier = 1 + 0.5 * np.log1p(goal_diff)
         
-    elo_ratings[home_team] = home_elo + K * weight * (home_actual - home_expected)
-    elo_ratings[away_team] = away_elo + K * weight * (away_actual - away_expected)
+    elo_ratings[home_team] = home_elo + K * weight * gd_multiplier * (home_actual - home_expected)
+    elo_ratings[away_team] = away_elo + K * weight * gd_multiplier * (away_actual - away_expected)
+    
+def apply_yearly_decay(year ,decay=0.99):
+    if not elo_ratings or year < 1990:
+        return
+    mean_elo = sum(elo_ratings.values()) / len(elo_ratings)
+    for team in elo_ratings:
+        elo_ratings[team] = mean_elo + (elo_ratings[team] - mean_elo) * decay
     
