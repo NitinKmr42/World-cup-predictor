@@ -2,13 +2,13 @@ import numpy as np
 from Confederations import get_confederation
 
 CONFEDERATION_BASE_ELO = {
-    "UEFA": 1000,
-    "CONMEBOL": 1000,
-    "CONCACAF": 950,
-    "CAF": 950,
-    "AFC": 930,
-    "OFC": 900,
-    "Unknown": 900
+    "UEFA": 1500,
+    "CONMEBOL": 1500,
+    "CONCACAF": 1450,
+    "CAF": 1450,
+    "AFC": 1430,
+    "OFC": 1400,
+    "Unknown": 1400
 }
 
 K=30
@@ -62,4 +62,4 @@ def apply_yearly_decay(year ,decay=0.99):
     mean_elo = sum(elo_ratings.values()) / len(elo_ratings)
     for team in elo_ratings:
         elo_ratings[team] = mean_elo + (elo_ratings[team] - mean_elo) * decay
-    
+
