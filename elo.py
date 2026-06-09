@@ -11,7 +11,7 @@ CONFEDERATION_BASE_ELO = {
     "Unknown": 1400
 }
 
-K=30
+K=20
 HOME_ADVANTAGE =100
 
 elo_ratings ={}
@@ -51,7 +51,7 @@ def update_elo(home_team,away_team,home_score,away_score,weight,neutral):
         home_actual, away_actual = 0.0, 1.0
     
     goal_diff = abs(home_score - away_score)
-    gd_multiplier = 1 + 0.5 * np.log1p(goal_diff)
+    gd_multiplier = 1 + 0.25 * np.log1p(goal_diff)
         
     elo_ratings[home_team] = home_elo + K * weight * gd_multiplier * (home_actual - home_expected)
     elo_ratings[away_team] = away_elo + K * weight * gd_multiplier * (away_actual - away_expected)
